@@ -1,0 +1,55 @@
+
+<div class="container">
+  <div class="row col-md-12">
+
+    <a [routerLink]="['/add-numbers']" class="btn btn-primary btn-xs pull-right"><b>+</b> New Calculation</a>
+    <!--<mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>-->
+
+    <table class="table table-striped" matSort (matSortChange)="sortData($event)">
+      <thead>
+        <tr>
+          <td>
+            <mat-form-field>
+              <input matInput [matDatepicker]="fromDate" name="fromDate" (click)="fromDate.open()" (dateChange)="orgFromDateValueChange($event.target.value)" placeholder="From date">
+              <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+              <mat-datepicker #fromDate></mat-datepicker>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <input matInput [matDatepicker]="toDate" name="toDate" (click)="toDate.open()" (dateChange)="orgToDateValueChange($event.target.value)" placeholder="To date">
+              <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+              <mat-datepicker #toDate></mat-datepicker>
+            </mat-form-field></td>
+          <td>
+            <mat-form-field>
+              <input matInput (keyup)="applyFilterName($event.target.value)" placeholder="Search by user">
+            </mat-form-field>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th mat-sort-header="createdDate">Generated On</th>
+          <th mat-sort-header="userName">User Name</th>
+          <th mat-sort-header="number1">1st Number</th>
+          <th mat-sort-header="number2">2nd Number</th>
+          <th mat-sort-header="sum">Summation</th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of results">
+          <td>{{item.createdDate | date:'dd/MM/yyyy hh:mm a' }}</td>
+          <td>{{item.userName}}</td>
+          <td>{{item.number1}}</td>
+          <td>{{item.number2}}</td>
+          <td>{{item.sum}}</td>
+        </tr>
+        <tr *ngIf="!results"><td colspan="5">No records to show!</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

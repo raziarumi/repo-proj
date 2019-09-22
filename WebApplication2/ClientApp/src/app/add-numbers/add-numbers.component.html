@@ -1,0 +1,30 @@
+
+
+  <form class="summation-form" [formGroup]="summationForm" enctype="multipart/form-data">
+    <mat-form-field class="summation-full-width">
+      <input matInput placeholder="User Name" value=""  formControlName="userName" [ngClass]="{'is-invalid': submitted && f.userName.errors}">
+      <div *ngIf="submitted && f.userName.errors">
+        <mat-error *ngIf="f.userName.errors.required">Name is required</mat-error>
+        <mat-error *ngIf="f.userName.errors.maxlength">Maximum length should be 250</mat-error>
+      </div>
+    </mat-form-field>
+
+    <mat-form-field class="summation-full-width">
+      <input type="number" matInput placeholder="First Number" value="" formControlName="number1" [ngClass]="{'is-invalid': submitted && f.number1.errors}">
+      <div *ngIf="submitted && f.number1.errors">
+        <mat-error *ngIf="f.number1.errors.required">First Number is required</mat-error>
+        <mat-error *ngIf="f.number1.errors.pattern">Must be a number</mat-error>
+      </div>
+    </mat-form-field>
+
+    <mat-form-field class="summation-full-width">
+      <input type="number" matInput placeholder="Second Number" value="" formControlName="number2" [ngClass]="{'is-invalid': submitted && f.number2.errors}">
+      <div *ngIf="submitted && f.number2.errors">
+        <mat-error *ngIf="f.number2.errors.required">Second Number is required</mat-error>
+        <mat-error *ngIf="f.number2.errors.pattern">Must be a number</mat-error>
+      </div>
+    </mat-form-field>
+    <span style="padding:10px;text-align:left;" *ngIf="this.summation != ''" class="badge badge-info">The Summation of {{summationData.number1}} and {{summationData.number2}} is:<br /> {{this.summation}}</span>
+    <br /><br />
+    <button type="button" class="btn btn-primary"(click)="onSubmit()">Submit</button>
+  </form>
