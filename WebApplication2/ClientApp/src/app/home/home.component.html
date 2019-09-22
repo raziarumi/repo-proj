@@ -34,8 +34,8 @@
         <tr>
           <th mat-sort-header="createdDate">Generated On</th>
           <th mat-sort-header="userName">User Name</th>
-          <th mat-sort-header="number1">1st Number</th>
-          <th mat-sort-header="number2">2nd Number</th>
+          <th mat-sort-header="number1">First Number</th>
+          <th mat-sort-header="number2">Second Number</th>
           <th mat-sort-header="sum">Summation</th>
         </tr>
 
@@ -48,7 +48,7 @@
           <td>{{item.number2}}</td>
           <td>{{item.sum}}</td>
         </tr>
-        <tr *ngIf="!results"><td colspan="5">No records to show!</td></tr>
+        <tr *ngIf="!results || results.length == 0"><td colspan="5">No records to show!</td></tr>
       </tbody>
     </table>
   </div>

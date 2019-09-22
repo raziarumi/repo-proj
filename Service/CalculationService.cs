@@ -18,15 +18,15 @@ namespace Service
             }
             else if ((model.Number1.StartsWith("-") && !model.Number2.StartsWith("-")) || (!model.Number1.StartsWith("-") && model.Number2.StartsWith("-")))
             {
-                Summation = GetDifference(model.Number1.Replace("-", ""), model.Number2.Replace("-", ""));
-                if (Summation != "0" && isSmaller(model.Number1.Replace("-", ""), model.Number2.Replace("-", "")) && model.Number2.StartsWith("-"))
-                {
-                    Summation = "-" + Summation;
-                }
-                else if (Summation != "0" && !isSmaller(model.Number1.Replace("-", ""), model.Number2.Replace("-", "")) && model.Number1.StartsWith("-"))
-                {
-                    Summation = "-" + Summation;
-                }
+                Summation = GetDifference(model.Number1.Replace("-", ""), model.Number2.Replace("-", ""), model.Number1.StartsWith("-"), model.Number2.StartsWith("-"));
+                //if (Summation != "0" && isSmaller(model.Number1.Replace("-", ""), model.Number2.Replace("-", "")) && model.Number2.StartsWith("-"))
+                //{
+                //    Summation = "-" + Summation;
+                //}
+                //else if (Summation != "0" && !isSmaller(model.Number1.Replace("-", ""), model.Number2.Replace("-", "")) && model.Number1.StartsWith("-"))
+                //{
+                //    Summation = "-" + Summation;
+                //}
             }
             else
             {
@@ -37,7 +37,7 @@ namespace Service
         }
 
 
-        private string GetDifference(string number1, string number2)
+        private string GetDifference(string number1, string number2, bool isNumber1Neg, bool isNumber2neg)
         {
 
             string num1Scale = number1;
@@ -47,11 +47,26 @@ namespace Service
             string num2precision = "";
             int carryOut = 0;
             string result1 = "";
+
             if (number1.Contains(".") || number2.Contains("."))
             {
                 (num1Scale, num2Scale, num1precision, num2precision) = GetScaleAndRecision(number1, number2);
+            }
+                bool isScaleSame = false;
+            bool isResultNeg = false;
+            bool isPrecisionSame = num1precision == num2precision;
+            bool isNum1Small = isSmaller(num1Scale, num2Scale);
+            if (num1Scale == num2Scale)
+            {
+                isScaleSame = true;
+            }
+            if (number1.Contains(".") || number2.Contains("."))
+            {
+                //(num1Scale, num2Scale, num1precision, num2precision) = GetScaleAndRecision(number1, number2);
+                if (isScaleSame)
+                    (result1, carryOut) = Difference(num2precision, num1precision, 0, true);
 
-                if (isSmaller(num1Scale, num2Scale))
+                else if (isNum1Small)
                     (result1, carryOut) = Difference(num2precision, num1precision, 0, false);
 
                 else
@@ -61,6 +76,26 @@ namespace Service
             }
             (string result, int carry) = Difference(num1Scale, num2Scale, carryOut);
             result = string.Format("{0}.{1}", result, result1);
+
+            if (isScaleSame && isPrecisionSame)
+            {
+                result = "0";
+            }
+            else if (isScaleSame && !isPrecisionSame)
+            {
+                bool isnum1PrecSmall = isSmaller(num1precision, num2precision);
+                if ((isnum1PrecSmall && isNumber2neg) || (!isnum1PrecSmall && isNumber1Neg))
+                {
+                    result = "-" + result;
+                }                
+            }
+            else if(!isScaleSame)
+            {
+                if ((isNum1Small && isNumber2neg) || (!isNum1Small && isNumber1Neg))
+                {
+                    result = "-" + result;
+                }
+            }
             return result;
         }
 

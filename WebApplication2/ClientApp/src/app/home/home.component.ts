@@ -104,7 +104,6 @@ export class HomeComponent implements OnInit {
     if (isANeg) { a = '-' + a; }
     if (isBNeg) { b = '-' + b; }
     
-    debugger;
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
